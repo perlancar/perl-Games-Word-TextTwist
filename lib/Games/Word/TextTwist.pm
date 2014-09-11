@@ -13,8 +13,8 @@ use Module::Load;
 
 # TMP
 sub __solve {
-    # find a 6-letter word in the wordlist, then find all words that can be
-    # formed from those 6 letters.
+    # find a 6-letter word in the wordlist, then find all 3- to 6-letter words
+    # that can be formed from those 6 letters.
     require Games::Word::Wordlist::Enable;
     my $wl = Games::Word::Wordlist::Enable->new;
 
@@ -23,13 +23,24 @@ sub __solve {
     my @letters = split '', $word;
     my @words;
   WORD:
-    for my $w0 ($wl->words_like(qr/^.{2,6}$/)) {
-        my $w = $w0;
-        for my $l (@letters) {
-            next WORD unless $w =~ s/$l//;
+    for my $w ($wl->words_like(qr/^.{3,6}$/)) {
+        my @l = @letters;
+        for my $l (split '', $w) {
+            my $found = 0;
+            for (0..@l-1) {
+                if ($l[$_] eq $l) {
+                    splice @l, $_, 1;
+                    $found++;
+                    last;
+                }
+            }
+            if (!$found) {
+                next WORD;
+            }
         }
-        push @words, $w0;
+        push @words, $w;
     }
+    @words;
 }
 
 sub new {
