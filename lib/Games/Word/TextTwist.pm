@@ -46,7 +46,7 @@ sub __solve {
         }
         push @words, $w;
     }
-    @words;
+    sort {length($a)<=>length($b) || $a cmp $b} @words;
 }
 
 sub new {
