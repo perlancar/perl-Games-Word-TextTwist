@@ -13,17 +13,23 @@ use Module::Load;
 
 # TMP
 sub __solve {
+    my %args = @_;
+
+    my $length = $args{length} // 6; # 5-7
+    my $wlname = $args{wl} // 'Enable';
+
     # find a 6-letter word in the wordlist, then find all 3- to 6-letter words
     # that can be formed from those 6 letters.
-    require Games::Word::Wordlist::Enable;
-    my $wl = Games::Word::Wordlist::Enable->new;
+    my $mod = "Games::Word::Wordlist::$wlname";
+    load $mod;
+    my $wl = $mod->new;
 
-    my $word = $wl->random_word(6)
+    my $word = $wl->random_word($length)
         or die "Can't get a 6-letter word from wordlist\n";
     my @letters = split '', $word;
     my @words;
   WORD:
-    for my $w ($wl->words_like(qr/^.{3,6}$/)) {
+    for my $w ($wl->words_like(qr/^.{3,$length}$/)) {
         my @l = @letters;
         for my $l (split '', $w) {
             my $found = 0;
