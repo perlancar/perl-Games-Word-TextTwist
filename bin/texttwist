@@ -25,7 +25,7 @@ my $game = Games::Word::Guess->new(%opts);
 $game->run;
 
 # ABSTRACT: Word guess game
-# PODNAME: wordguess
+# PODNAME:
 
 =head1 SYNOPSIS
 
