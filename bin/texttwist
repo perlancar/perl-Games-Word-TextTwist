@@ -128,19 +128,6 @@ Only words containing the lowercase latin letter a-z are used.
 Number of words per game.
 
 
-=head1 TODO
-
-=over
-
-=item * Write statistics file
-
-=item * Colors
-
-=item * Add timeout for each guess
-
-=back
-
-
 =head1 HISTORY
 
 First created as a Perl script on 2010-04-04. First packaged as a CPAN module on
